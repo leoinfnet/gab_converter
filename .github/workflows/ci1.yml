@@ -37,7 +37,8 @@ jobs:
       - name: Instalar pytest
         run: pip install pytest
 
-      - name: Rodar testes\
+      - name: Rodar testes
+        id: run_pytest
         continue-on-error: true
         env:
           PYTHONPATH: .
