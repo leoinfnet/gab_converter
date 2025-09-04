@@ -1,8 +1,20 @@
 name: Hello World Actions
 on: [push]
 jobs:
-  hello:
+  checkout:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🚀 Hello from GitHub Actions!"
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
+      - name: Mostrar infos do build
+        run: |
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "Commit: $GITHUB_SHA"
+          pwd
+
+      - name: Listar arquivos do repo
+        run: |
+          ls -la
+          ls -la conversor || true
+          ls -la tests || true
