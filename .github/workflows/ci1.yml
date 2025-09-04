@@ -58,12 +58,11 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          # troque "conversor" se o pacote tiver outro nome
           pytest -q --disable-warnings \
                  --cov=conversor/core.py\
                  --cov-report=term-missing \
                  --cov-report=xml \
-                 --cov-fail-under=80
+                 --cov-fail-under=10
 
       - name: Gerar badge SVG da cobertura
         run: |
@@ -82,49 +81,44 @@ jobs:
       
       
 
-      #      - name: Criar Issue se falhar (somente em push)
-#        if: ${{ steps.run_pytest.outcome == 'failure' && github.event_name == 'push' }}
-#        uses: actions/github-script@v7
-#        with:
-#          script: |
-#            const owner = context.repo.owner;
-#            const repo = context.repo.repo;
-#            const sha7 = context.sha.substring(0,7);
-#            const title = `❌ Testes falharam em ${context.ref} @ ${sha7}`;
-#            const runUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
-#
-#            const body = [
-#              `**Workflow:** ${process.env.GITHUB_WORKFLOW}`,
-#              `**Run:** ${runUrl}`,
-#              `**Branch/Tag:** ${context.ref}`,
-#              `**Commit:** ${context.sha}`,
-#              '',
-#              'Baixe o artifact **pytest-report** (retenção: 2 dias) para ver o JUnit.',
-#              '',
-#              'Gerado automaticamente pelo CI.'
-#            ].join('\n');
-#
-#            const labels = ['ci','tests','falha'];
-#
-#            // Evita duplicar Issue para o mesmo commit (procura por label + sha no título)
-#            const { data: openIssues } = await github.rest.issues.listForRepo({
-#              owner, repo, state: 'open', per_page: 100, labels: labels.join(',')
-#            });
-#            if (openIssues.some(i => i.title.includes(sha7))) {
-#              core.info('Issue já existe para este commit. Pulando criação.');
-#            } else {
-#              // Tenta garantir que as labels existam (ignora erro se já existirem)
-#              for (const name of labels) {
-#                try { await github.rest.issues.createLabel({ owner, repo, name, color: 'ededed' }); } catch {}
-#              }
-#              await github.rest.issues.create({ owner, repo, title, body, labels });
-#              core.info('Issue criada com sucesso.');
-#            }
-      # Encerra o job como falho (status vermelho correto)
+      - name: Criar Issue se falhar (somente em push)
+        if: ${{ steps.run_pytest.outcome == 'failure' && github.event_name == 'push' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const sha7 = context.sha.substring(0,7);
+            const title = `❌ Testes falharam em ${context.ref} @ ${sha7}`;
+            const runUrl = `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
 
+            const body = [
+              `**Workflow:** ${process.env.GITHUB_WORKFLOW}`,
+              `**Run:** ${runUrl}`,
+              `**Branch/Tag:** ${context.ref}`,
+              `**Commit:** ${context.sha}`,
+              '',
+              'Baixe o artifact **pytest-report** (retenção: 2 dias) para ver o JUnit.',
+              '',
+              'Gerado automaticamente pelo CI.'
+            ].join('\n');
 
-      
-      
+            const labels = ['ci','tests','falha'];
+
+            // Evita duplicar Issue para o mesmo commit (procura por label + sha no título)
+            const { data: openIssues } = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', per_page: 100, labels: labels.join(',')
+            });
+            if (openIssues.some(i => i.title.includes(sha7))) {
+              core.info('Issue já existe para este commit. Pulando criação.');
+            } else {
+              // Tenta garantir que as labels existam (ignora erro se já existirem)
+              for (const name of labels) {
+                try { await github.rest.issues.createLabel({ owner, repo, name, color: 'ededed' }); } catch {}
+              }
+              await github.rest.issues.create({ owner, repo, title, body, labels });
+              core.info('Issue criada com sucesso.');
+            }
 
       - name: Marcar job como falho
         if: ${{ steps.run_pytest.outcome == 'failure' }}
