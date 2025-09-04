@@ -39,3 +39,4 @@ def test_kg_lb_ida_volta():
 #     """Teste propositalmente errado: 0 °C NÃO é 100 °F."""
 #     valor = core.celsius_para_fahrenheit(0)
 #     assert valor == 100  # deveria ser 32, mas estamos forçando a falha
+#Alte
