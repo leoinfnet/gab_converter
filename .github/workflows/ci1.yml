@@ -122,4 +122,9 @@ jobs:
             coverage.xml
             coverage.svg
           retention-days: 7
-
+      - name: Commitar badge no repo (apenas na main)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: atualiza badge de cobertura [skip ci]"
+          file_pattern: coverage.svg
