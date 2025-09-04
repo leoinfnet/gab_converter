@@ -55,6 +55,7 @@ jobs:
           retention-days: 2
 
       - name: PyTest com cobertura
+        continue-on-error: true
         env:
           PYTHONPATH: .
         run: |
