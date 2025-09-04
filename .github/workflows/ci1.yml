@@ -60,10 +60,10 @@ jobs:
         run: |
           # troque "conversor" se o pacote tiver outro nome
           pytest -q --disable-warnings \
-                 --cov \
+                 --cov=conversor/core.py\
                  --cov-report=term-missing \
                  --cov-report=xml \
-                 --cov-fail-under=10
+                 --cov-fail-under=80
 
       - name: Gerar badge SVG da cobertura
         run: |
