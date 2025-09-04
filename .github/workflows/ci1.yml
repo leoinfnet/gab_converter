@@ -54,10 +54,7 @@ jobs:
 
           retention-days: 2
 
-      # Encerra o job como falho (status vermelho correto)
-      - name: Marcar job como falho
-        if: ${{ steps.run_pytest.outcome == 'failure' }}
-        run: exit 1
+
 
       - name: Criar Issue se falhar (somente em push)
         if: ${{ steps.run_pytest.outcome == 'failure' && github.event_name == 'push' }}
@@ -97,3 +94,7 @@ jobs:
               await github.rest.issues.create({ owner, repo, title, body, labels });
               core.info('Issue criada com sucesso.');
             }
+      # Encerra o job como falho (status vermelho correto)
+      - name: Marcar job como falho
+        if: ${{ steps.run_pytest.outcome == 'failure' }}
+        run: exit 1
