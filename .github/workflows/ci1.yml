@@ -41,3 +41,17 @@ jobs:
         env:
           PYTHONPATH: .
         run: pytest -q
+        continue-on-error: true
+
+      - name: Upload do relatório JUnit (se falhou)
+        if: ${{ steps.run_pytest.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: pytest-report.xml
+          retention-days: 2
+
+      # Encerra o job como falho (status vermelho correto)
+      - name: Marcar job como falho
+        if: ${{ steps.run_pytest.outcome == 'failure' }}
+        run: exit 1
