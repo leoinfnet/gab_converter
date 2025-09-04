@@ -37,11 +37,12 @@ jobs:
       - name: Instalar pytest
         run: pip install pytest
 
-      - name: Rodar testes
+      - name: Rodar testes\
+        continue-on-error: true
         env:
           PYTHONPATH: .
-        run: pytest -q
-        continue-on-error: true
+        run: pytest -q --junit-xml=pytest-report.xml
+
 
       - name: Upload do relatório JUnit (se falhou)
         if: ${{ steps.run_pytest.outcome == 'failure' }}
@@ -49,6 +50,7 @@ jobs:
         with:
           name: pytest-report
           path: pytest-report.xml
+
           retention-days: 2
 
       # Encerra o job como falho (status vermelho correto)
