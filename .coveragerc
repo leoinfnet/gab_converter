@@ -1,0 +1,8 @@
+[run]
+source = conversor
+branch = True
+
+[report]
+omit =
+    */__init__.py
+    */cli.py
