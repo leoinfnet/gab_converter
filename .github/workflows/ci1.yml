@@ -54,32 +54,7 @@ jobs:
 
           retention-days: 2
 
-      - name: PyTest com cobertura
-        continue-on-error: true
-        env:
-          PYTHONPATH: .
-        run: pytest -q --disable-warnings --cov=conversor/core.py --cov-report=xml:coverage.xml --cov-report=term-missing --cov-fail-under=10
-#          pytest -q --disable-warnings \
-#                 --cov=conversor
-#                 --cov-report=xml \
-#                 --cov-fail-under=10
 
-      - name: Gerar badge SVG da cobertura
-        run: |
-          # gera ./coverage.svg a partir do coverage.xml
-          coverage-badge -o coverage.svg -f
-      
-      
-      - name: Upload dos artefatos (badge + xml)
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-artifacts
-          path: |
-            coverage.xml
-            coverage.svg
-          retention-days: 7
-      
-      
 
       - name: Criar Issue se falhar (somente em push)
         if: ${{ steps.run_pytest.outcome == 'failure' && github.event_name == 'push' }}
@@ -123,3 +98,28 @@ jobs:
       - name: Marcar job como falho
         if: ${{ steps.run_pytest.outcome == 'failure' }}
         run: exit 1
+
+
+
+      - name: PyTest com cobertura
+        continue-on-error: true
+        env:
+          PYTHONPATH: .
+        run: pytest -q --disable-warnings --cov=conversor/core.py --cov-report=xml:coverage.xml --cov-report=term-missing --cov-fail-under=10
+
+
+      - name: Gerar badge SVG da cobertura
+        run: |
+          # gera ./coverage.svg a partir do coverage.xml
+          coverage-badge -o coverage.svg -f
+
+
+      - name: Upload dos artefatos (badge + xml)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-artifacts
+          path: |
+            coverage.xml
+            coverage.svg
+          retention-days: 7
+
