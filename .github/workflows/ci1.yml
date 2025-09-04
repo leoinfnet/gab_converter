@@ -58,11 +58,11 @@ jobs:
         continue-on-error: true
         env:
           PYTHONPATH: .
-        run: |
-          pytest -q --disable-warnings \
-                 --cov=conversor
-                 --cov-report=xml \
-                 --cov-fail-under=10
+        run: pytest -q --disable-warnings --cov=conversor/core.py --cov-report=xml:coverage.xml --cov-report=term-missing --cov-fail-under=10
+#          pytest -q --disable-warnings \
+#                 --cov=conversor
+#                 --cov-report=xml \
+#                 --cov-fail-under=10
 
       - name: Gerar badge SVG da cobertura
         run: |
