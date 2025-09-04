@@ -34,3 +34,10 @@ jobs:
 
       - name: Verificar instalação
         run: pip list
+      - name: Instalar pytest
+        run: pip install pytest
+
+      - name: Rodar testes
+        env:
+          PYTHONPATH: .
+        run: pytest -q
