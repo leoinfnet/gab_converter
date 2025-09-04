@@ -1,0 +1,22 @@
+QUALIDADE
+
+pip install ruff black mypy bandit pytest pytest-cov
+
+
+# Lint + autofix rápido
+ruff check . --fix
+
+# Ordena imports (separado, caso queira)
+ruff check . --select I --fix
+
+# Formata
+black .
+
+# Tipagem
+mypy .
+
+# Segurança (Python)
+bandit -r conversor
+
+# Testes com cobertura focada no módulo CLI
+pytest --cov=conversor.cli --cov-report=term-missing

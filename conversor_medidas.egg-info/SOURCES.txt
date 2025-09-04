@@ -1,0 +1,11 @@
+pyproject.toml
+setup.cfg
+conversor/__init__.py
+conversor/cli.py
+conversor/core.py
+conversor_medidas.egg-info/PKG-INFO
+conversor_medidas.egg-info/SOURCES.txt
+conversor_medidas.egg-info/dependency_links.txt
+conversor_medidas.egg-info/requires.txt
+conversor_medidas.egg-info/top_level.txt
+tests/test_core.py
