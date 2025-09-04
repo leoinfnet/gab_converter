@@ -54,9 +54,35 @@ jobs:
 
           retention-days: 2
 
+      - name: PyTest com cobertura
+        env:
+          PYTHONPATH: .
+        run: |
+          # troque "conversor" se o pacote tiver outro nome
+          pytest -q --maxfail=1 --disable-warnings \
+                 --cov \
+                 --cov-report=term-missing \
+                 --cov-report=xml \
+                 --cov-fail-under=80
 
+      - name: Gerar badge SVG da cobertura
+        run: |
+          # gera ./coverage.svg a partir do coverage.xml
+          coverage-badge -o coverage.svg -f
+      
+      
+      - name: Upload dos artefatos (badge + xml)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-artifacts
+          path: |
+            coverage.xml
+            coverage.svg
+          retention-days: 7
+      
+      
 
-#      - name: Criar Issue se falhar (somente em push)
+      #      - name: Criar Issue se falhar (somente em push)
 #        if: ${{ steps.run_pytest.outcome == 'failure' && github.event_name == 'push' }}
 #        uses: actions/github-script@v7
 #        with:
@@ -95,6 +121,11 @@ jobs:
 #              core.info('Issue criada com sucesso.');
 #            }
       # Encerra o job como falho (status vermelho correto)
+
+
+      
+      
+
       - name: Marcar job como falho
         if: ${{ steps.run_pytest.outcome == 'failure' }}
         run: exit 1
