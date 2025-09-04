@@ -59,7 +59,7 @@ jobs:
           PYTHONPATH: .
         run: |
           pytest -q --disable-warnings \
-                 --cov 
+                 --cov=conversor
                  --cov-report=xml \
                  --cov-fail-under=10
 
