@@ -1,0 +1,5 @@
+name: "Hello World Action"
+description: "Meu primeiro action local"
+runs:
+  using: "node20"
+  main: "index.js"
