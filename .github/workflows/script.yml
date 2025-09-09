@@ -1,3 +1,21 @@
+name: Hello World Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-da: ${{ steps.hello.outputs.msg }}"
+
+      - name: Run Hello World
+        #uses: ./.github/actions/hello
+        uses:  ./github/actions/hello/index.js
+
+      - name: Mostrar saída
+        run: | 
+          echo "Mensagem recebida: ${{ steps.hello.outputs.msg }}"
