@@ -1,5 +1,9 @@
 name: Hello World Actions
-on: [push]
+on:
+  push:
+    branches:
+      - nenhuma
+
 jobs:
   checkout:
     runs-on: ubuntu-latest
