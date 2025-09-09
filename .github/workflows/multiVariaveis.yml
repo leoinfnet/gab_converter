@@ -1,0 +1,30 @@
+# .github/workflows/auto-run.yml
+name: Workflow Automático
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *"   # todo dia à meia-noite (UTC)
+  workflow_dispatch:       # também permite rodar manualmente, se quiser
+env:
+  NODE_ENV: production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Definir versão
+        id: versao
+        run: echo "version=1.2.$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
+
+    outputs:
+      app_version: ${{ steps.versao.outputs.version }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Usar versão do build
+        run: echo "Vou implantar a versão ${{ needs.build.outputs.app_version }}"
