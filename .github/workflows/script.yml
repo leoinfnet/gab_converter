@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run Hello World
-        #uses: ./.github/actions/hello
-        uses:  ./github/actions/hello/index.js
+        uses: ./.github/actions/hello
+        #uses:  ./github/actions/hello/index.js
 
       - name: Mostrar saída
         run: | 

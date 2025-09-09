@@ -4,7 +4,7 @@ name: Workflow Automático
 on:
   push:
     branches:
-      - main
+      - m,atuta
   schedule:
     - cron: "0 0 * * *"   # todo dia à meia-noite (UTC)
   workflow_dispatch:       # também permite rodar manualmente, se quiser
