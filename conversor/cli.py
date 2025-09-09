@@ -79,6 +79,9 @@ def c2f(c: float = typer.Argument(..., help="Temperatura em °C")):
     console.print(core.celsius_para_fahrenheit(c))
 
 
+
+
+
 @app.command()
 def km2mi(km: float):
     """Conversão direta: km para milhas."""
