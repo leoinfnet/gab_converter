@@ -73,7 +73,6 @@ def menu():
         )
     )
 
-#TODO criar uma clase melhor para isso!
 @app.command()
 def c2f(c: float = typer.Argument(..., help="Temperatura em °C")):
     """Conversão direta: Celsius para Fahrenheit."""
